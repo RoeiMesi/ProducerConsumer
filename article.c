@@ -4,7 +4,7 @@ Article* createArticle(int creatorId, int* typeCounters){
     char* types[] = {"NEWS", "WEATHER", "SPORTS"};
     Article* newArticle = (Article*) malloc(sizeof(Article));
 
-    // Set the creator ID
+    // Set the producer ID
     newArticle->creatorId = creatorId;
 
     // Generate a random type index
