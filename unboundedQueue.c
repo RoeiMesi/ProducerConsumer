@@ -1,4 +1,19 @@
 #include "unboundedQueue.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <semaphore.h>
+
+// Function to allocate a new node
+Node* allocateNode(Article* newArticle) {
+    Node* newNode = (Node*) malloc(sizeof(Node));
+    if (newNode == NULL) {
+        printf("Failed to allocate node\n");
+        return NULL;
+    }
+    newNode->data = newArticle;
+    newNode->next = NULL;
+    return newNode;
+}
 
 void initializeQueue(UnboundedQueue* queue) {
     queue->head = NULL;
@@ -8,9 +23,10 @@ void initializeQueue(UnboundedQueue* queue) {
 }
 
 void unboundedEnqueue(UnboundedQueue* queue, Article* newArticle) {
-    Node* newNode = (Node*) malloc(sizeof(Node));
-    newNode->data = newArticle;
-    newNode->next = NULL;
+    Node* newNode = allocateNode(newArticle);
+    if (newNode == NULL) {
+        return;
+    }
 
     sem_wait(&(queue->accessLock));
 
@@ -46,6 +62,7 @@ void cleanupQueue(UnboundedQueue* queue) {
 
     while (current != NULL) {
         next = current->next;
+        free(current->data);
         free(current);
         current = next;
     }
@@ -57,9 +74,8 @@ void cleanupQueue(UnboundedQueue* queue) {
 
 void displayQueue(UnboundedQueue* queue) {
     Node* current = queue->head;
-    while (current->next != NULL) {
+    while (current != NULL) {
         printf("%d %s %d\n", current->data->creatorId, current->data->type, current->data->count);
         current = current->next;
     }
-    printf("%d %s %d\n", current->data->creatorId, current->data->type, current->data->count);
 }
