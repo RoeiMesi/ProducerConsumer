@@ -80,26 +80,30 @@ Producer** configHandler(char* path, int* ptrProdCount) {
         return NULL;
     }
 
-    int args[3];
     char line[100];
-    int counter = 0;
-    int bufferSize = BUFFER_SIZE;
+    int producerId, itemCount, bufferCapacity;
 
     while (fgets(line, sizeof(line), file) != NULL) {
-        if (line[0] == '\n') {
+        if (strncmp(line, "Producer", 8) == 0) {
             Producer* producer = (Producer*) malloc(sizeof(Producer));
             if (allocationCheck((void*)producer, "producer")) {
                 fclose(file);
                 free(producers);
                 return NULL;
             }
-            producer->producerId = args[0];
-            producer->itemCount = args[1];
-            producer->bufferCapacity = args[2];
 
-            if (*ptrProdCount >= bufferSize) {
-                bufferSize *= 2;
-                Producer** tempProducers = realloc(producers, sizeof(Producer) * bufferSize);
+            sscanf(line, "Producer %d", &producerId);
+            fgets(line, sizeof(line), file);
+            sscanf(line, "%d", &itemCount);
+            fgets(line, sizeof(line), file);
+            sscanf(line, "queue size = %d", &bufferCapacity);
+
+            producer->producerId = producerId;
+            producer->itemCount = itemCount;
+            producer->bufferCapacity = bufferCapacity;
+
+            if (*ptrProdCount >= BUFFER_SIZE) {
+                Producer** tempProducers = realloc(producers, sizeof(Producer) * (*ptrProdCount + 1));
                 if (allocationCheck((void*)tempProducers, "producers")) {
                     fclose(file);
                     free(producers);
@@ -110,12 +114,7 @@ Producer** configHandler(char* path, int* ptrProdCount) {
 
             producers[*ptrProdCount] = producer;
             (*ptrProdCount)++;
-            counter = 0;
-            continue;
         }
-
-        sscanf(line, "%d", &args[counter]);
-        counter = (counter + 1) % 3;
     }
 
     fclose(file);
