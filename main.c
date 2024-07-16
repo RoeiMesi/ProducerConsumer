@@ -85,7 +85,7 @@ Producer** configHandler(char* path, int* ptrProdCount) {
     int producerId, itemCount, bufferCapacity;
 
     while (fgets(line, sizeof(line), file) != NULL) {
-        if (strncmp(line, "Producer", 8) == 0) {
+        if (strncmp(line, "PRODUCER", 8) == 0) {
             Producer* producer = (Producer*) malloc(sizeof(Producer));
             if (checkAllocation((void*)producer, "producer")) {
                 fclose(file);
@@ -93,7 +93,7 @@ Producer** configHandler(char* path, int* ptrProdCount) {
                 return NULL;
             }
 
-            sscanf(line, "Producer %d", &producerId);
+            sscanf(line, "PRODUCER %d", &producerId);
             fgets(line, sizeof(line), file);
             sscanf(line, "%d", &itemCount);
             fgets(line, sizeof(line), file);
