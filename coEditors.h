@@ -10,6 +10,8 @@ typedef struct {
     BoundedBuffer* primaryBuffer;
 } coEditor;
 
+void processAndAddToBuffer(coEditor* editor, Article* item);
+void runCoEditor(coEditor* editor);
 void* editorThread(void* params);
 void initializeEditor(coEditor* editor, BoundedBuffer* primaryBuffer, UnboundedQueue* secondaryQueue);
 

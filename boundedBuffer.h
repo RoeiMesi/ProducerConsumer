@@ -13,6 +13,8 @@ typedef struct {
     Article** elements;
 } BoundedBuffer;
 
+int initializeSemaphores(BoundedBuffer* buffer, int capacity);
+void freeBufferElements(BoundedBuffer* buffer);
 int setupBuffer(BoundedBuffer* buffer, int capacity);
 void addToBuffer(BoundedBuffer* buffer, Article* newElement);
 Article* removeFromBuffer(BoundedBuffer* buffer);

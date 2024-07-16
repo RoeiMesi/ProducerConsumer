@@ -13,6 +13,7 @@ typedef struct {
     BoundedBuffer* producerBuffer;
 } Producer;
 
-void* producerRoutine(void* args);
+Article* createSentinel(int producerId);
+void* runProducer(void* args);
 
 #endif //EX3_PRODUCER_H

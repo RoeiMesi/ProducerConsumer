@@ -1,3 +1,4 @@
+// Roei Mesilaty, 315253336
 #include "coEditors.h"
 #include <string.h>
 #include <unistd.h>
@@ -9,7 +10,7 @@ void processAndAddToBuffer(coEditor* editor, Article* item) {
 }
 
 // Function to handle the editor's main loop
-void editorMainLoop(coEditor* editor) {
+void runCoEditor(coEditor* editor) {
     while (1) {
         Article* item = unboundedDequeue(editor->secondaryQueue);
         if (strcmp(item->type, "DONE") == 0) {
@@ -29,6 +30,6 @@ void initializeEditor(coEditor* editor, BoundedBuffer* primaryBuffer, UnboundedQ
 
 void* editorThread(void* params) {
     coEditor* editor = (coEditor*) params;
-    editorMainLoop(editor);
+    runCoEditor(editor);
     return NULL;
 }

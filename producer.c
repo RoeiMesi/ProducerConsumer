@@ -1,3 +1,4 @@
+// Roei Mesilaty, 315253336
 #include "producer.h"
 
 // Function to allocate and initialize a sentinel article
@@ -13,7 +14,7 @@ Article* createSentinel(int producerId) {
     return sentinel;
 }
 
-void* producerRoutine(void* producerPtr) {
+void* runProducer(void* producerPtr) {
     Producer* producer = (Producer*) producerPtr;
     
     // Initialize type counters

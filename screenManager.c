@@ -1,3 +1,4 @@
+// Roei Mesilaty, 315253336
 #include "screenManager.h"
 #include <string.h>
 #include <stdio.h>
@@ -9,7 +10,7 @@ void processArticle(Article* item) {
 }
 
 // Function to handle the screen routine's main loop
-void screenMainLoop(BoundedBuffer* primaryBuffer) {
+void runScreenManager(BoundedBuffer* primaryBuffer) {
     int doneCount = 0;
     while (1) {
         Article* item = removeFromBuffer(primaryBuffer);
@@ -28,6 +29,6 @@ void screenMainLoop(BoundedBuffer* primaryBuffer) {
 
 void* screenRoutine(void* params) {
     BoundedBuffer* primaryBuffer = (BoundedBuffer*) params;
-    screenMainLoop(primaryBuffer);
+    runScreenManager(primaryBuffer);
     return NULL;
 }

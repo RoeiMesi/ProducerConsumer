@@ -13,6 +13,9 @@ typedef struct {
     UnboundedQueue** secondaryQueues;
 } TaskManager;
 
+void processTaskManagerArticle(TaskManager* manager, Article* item);
+void enqueueSentinels(TaskManager* manager);
+void runTaskManager(TaskManager* manager);
 void initTaskManager(TaskManager* manager, UnboundedQueue** uq, BoundedBuffer** lb, int numProducers);
 void* taskManagerThread(void* params);
 

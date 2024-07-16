@@ -1,3 +1,4 @@
+// Roei Mesilaty, 315253336
 #include <stdlib.h>
 #include <stdio.h>
 #include "pthread.h"
@@ -34,7 +35,7 @@ void deallocThreads(pthread_t* t_gid, pthread_t* t_gid2) {
     free(t_gid2);
 }
 
-int allocationCheck(void* allocation, char* type) {
+int checkAllocation(void* allocation, char* type) {
     if (allocation == NULL) {
         printf("Failed to allocate %s\n", type);
         free(allocation);
@@ -69,7 +70,7 @@ int getLastIntegerFromFile(const char* filePath) {
 // Function to parse configuration and create producers
 Producer** configHandler(char* path, int* ptrProdCount) {
     Producer** producers = (Producer**) malloc(sizeof(Producer) * BUFFER_SIZE);
-    if (allocationCheck((void*)producers, "producers")) {
+    if (checkAllocation((void*)producers, "producers")) {
         return NULL;
     }
 
@@ -86,7 +87,7 @@ Producer** configHandler(char* path, int* ptrProdCount) {
     while (fgets(line, sizeof(line), file) != NULL) {
         if (strncmp(line, "Producer", 8) == 0) {
             Producer* producer = (Producer*) malloc(sizeof(Producer));
-            if (allocationCheck((void*)producer, "producer")) {
+            if (checkAllocation((void*)producer, "producer")) {
                 fclose(file);
                 free(producers);
                 return NULL;
@@ -104,7 +105,7 @@ Producer** configHandler(char* path, int* ptrProdCount) {
 
             if (*ptrProdCount >= BUFFER_SIZE) {
                 Producer** tempProducers = realloc(producers, sizeof(Producer) * (*ptrProdCount + 1));
-                if (allocationCheck((void*)tempProducers, "producers")) {
+                if (checkAllocation((void*)tempProducers, "producers")) {
                     fclose(file);
                     free(producers);
                     return NULL;
@@ -124,7 +125,7 @@ Producer** configHandler(char* path, int* ptrProdCount) {
 void initializeProducers(Producer** producers, BoundedBuffer** boundedBuffers, pthread_t* t_gid, int producerCount) {
     for (int i = 0; i < producerCount; i++) {
         BoundedBuffer* newBuffer = (BoundedBuffer*) malloc(sizeof(BoundedBuffer));
-        if (allocationCheck((void*)newBuffer, "bounded buffer")) {
+        if (checkAllocation((void*)newBuffer, "bounded buffer")) {
             exit(1);
         }
 
@@ -133,7 +134,7 @@ void initializeProducers(Producer** producers, BoundedBuffer** boundedBuffers, p
         boundedBuffers[i] = newBuffer;
 
         pthread_t thread_id;
-        int result = pthread_create(&thread_id, NULL, producerRoutine, (void*)producers[i]);
+        int result = pthread_create(&thread_id, NULL, runProducer, (void*)producers[i]);
         t_gid[i] = thread_id;
         if (result != 0) {
             printf("Failed to create producer thread: %d\n", result);
@@ -143,13 +144,13 @@ void initializeProducers(Producer** producers, BoundedBuffer** boundedBuffers, p
 
 UnboundedQueue** initializeUnboundedQueues() {
     UnboundedQueue** unboundedQueues = (UnboundedQueue**) malloc(sizeof(UnboundedQueue) * CATEGORIES_NUM);
-    if (allocationCheck((void*)unboundedQueues, "unbounded queues")) {
+    if (checkAllocation((void*)unboundedQueues, "unbounded queues")) {
         return NULL;
     }
 
     for (int i = 0; i < CATEGORIES_NUM; i++) {
         UnboundedQueue* newQueue = (UnboundedQueue*) malloc(sizeof(UnboundedQueue));
-        if (allocationCheck((void*)newQueue, "unbounded queue")) {
+        if (checkAllocation((void*)newQueue, "unbounded queue")) {
             return NULL;
         }
         initializeQueue(newQueue);
@@ -162,7 +163,7 @@ UnboundedQueue** initializeUnboundedQueues() {
 void initializeCoEditors(coEditor** coEditors, BoundedBuffer* mainBuffer, UnboundedQueue** unboundedQueues, pthread_t* t_gid2) {
     for (int i = 0; i < CATEGORIES_NUM; i++) {
         coEditor* co_editor = (coEditor*) malloc(sizeof(coEditor));
-        if (allocationCheck((void*)co_editor, "co-editor")) {
+        if (checkAllocation((void*)co_editor, "co-editor")) {
             exit(1);
         }
         initializeEditor(co_editor, mainBuffer, unboundedQueues[i]);
@@ -191,7 +192,7 @@ int main(int argc, char* argv[]) {
     }
 
     BoundedBuffer** boundedBuffers = (BoundedBuffer**) malloc(sizeof(BoundedBuffer) * producerCount);
-    if (allocationCheck((void*)boundedBuffers, "bounded buffers")) {
+    if (checkAllocation((void*)boundedBuffers, "bounded buffers")) {
         return 1;
     }
 
@@ -209,7 +210,7 @@ int main(int argc, char* argv[]) {
     }
 
     TaskManager* dp = (TaskManager*) malloc(sizeof(TaskManager));
-    if (allocationCheck((void*)dp, "task manager")) {
+    if (checkAllocation((void*)dp, "task manager")) {
         return 1;
     }
 
@@ -222,7 +223,7 @@ int main(int argc, char* argv[]) {
 
     int mainBufferSize = getLastIntegerFromFile(argv[1]);
     BoundedBuffer* mainBuffer = (BoundedBuffer*) malloc(sizeof(BoundedBuffer));
-    if (allocationCheck((void*)mainBuffer, "main buffer")) {
+    if (checkAllocation((void*)mainBuffer, "main buffer")) {
         return 1;
     }
 
@@ -235,7 +236,7 @@ int main(int argc, char* argv[]) {
     }
 
     coEditor** coEditors = (coEditor**) malloc(sizeof(coEditor) * CATEGORIES_NUM);
-    if (allocationCheck((void*)coEditors, "co-editors")) {
+    if (checkAllocation((void*)coEditors, "co-editors")) {
         return 1;
     }
 

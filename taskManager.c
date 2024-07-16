@@ -1,3 +1,4 @@
+// Roei Mesilaty, 315253336
 #include "taskManager.h"
 #include <string.h>
 #include <stdlib.h>
@@ -25,7 +26,7 @@ void enqueueSentinels(TaskManager* manager) {
 }
 
 // Function to handle the task manager's main loop
-void taskManagerMainLoop(TaskManager* manager) {
+void runTaskManager(TaskManager* manager) {
     int completedBuffers = 0;
     while (1) {
         for (int i = 0; i < manager->numProducers; i++) {
@@ -59,6 +60,6 @@ void initTaskManager(TaskManager* manager, UnboundedQueue** uq, BoundedBuffer** 
 
 void* taskManagerThread(void* params) {
     TaskManager* manager = (TaskManager*) params;
-    taskManagerMainLoop(manager);
+    runTaskManager(manager);
     return NULL;
 }

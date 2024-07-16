@@ -18,6 +18,7 @@ typedef struct {
     sem_t accessLock;
 } UnboundedQueue;
 
+Node* allocateNode(Article* newArticle);
 void cleanupQueue(UnboundedQueue* queue);
 void initializeQueue(UnboundedQueue* queue);
 void unboundedEnqueue(UnboundedQueue* queue, Article* newArticle);
