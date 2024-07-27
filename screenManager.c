@@ -5,7 +5,7 @@
 
 // Function to process each article
 void processArticle(Article* item) {
-    printf("Producer %d %s %d\n", item->creatorId, item->type, item->count);
+    printf("Producer %d %s %d\n", item->creatorId, item->type, item->count - 1);
     free(item);
 }
 
