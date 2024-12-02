@@ -1,4 +1,3 @@
-// Roei Mesilaty, 315253336
 #include "taskManager.h"
 #include <string.h>
 #include <stdlib.h>
