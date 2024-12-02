@@ -1,4 +1,3 @@
-// Roei Mesilaty, 315253336
 #include <stdlib.h>
 #include <stdio.h>
 #include "pthread.h"
