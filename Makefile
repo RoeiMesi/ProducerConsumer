@@ -1,4 +1,3 @@
-# Roei Mesilaty, 315253336
 # Compiler and flags
 CC = gcc
 CFLAGS = -Wall -Wextra -pthread
