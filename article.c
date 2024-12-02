@@ -1,4 +1,3 @@
-// Roei Mesilaty, 315253336
 #include "article.h"
 
 Article* createArticle(int creatorId, int* typeCounters){
