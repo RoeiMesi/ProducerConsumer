@@ -1,4 +1,3 @@
-// Roei Mesilaty, 315253336
 #include "screenManager.h"
 #include <string.h>
 #include <stdio.h>
