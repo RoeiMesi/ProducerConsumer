@@ -1,4 +1,3 @@
-// Roei Mesilaty, 315253336
 #include "producer.h"
 
 // Function to allocate and initialize a sentinel article
