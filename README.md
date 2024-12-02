@@ -62,6 +62,13 @@ queue size = 5
 
 Producer 2
 8
+queue size = 4
+
+Producer 3
+12
+queue size = 6
+
+Co-Editor queue size = 3
 ```
 * Each producer is assigned an ID, an article count, and a queue size.
 * The co-editor queue size sets the capacity of category-specific unbounded queues.
