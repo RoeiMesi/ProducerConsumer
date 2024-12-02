@@ -1,4 +1,3 @@
-// Roei Mesilaty, 315253336
 #include "boundedBuffer.h"
 #include "article.h"
 #include <stdio.h>
