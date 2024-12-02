@@ -1,4 +1,3 @@
-// Roei Mesilaty, 315253336
 #include "coEditors.h"
 #include <string.h>
 #include <unistd.h>
